@@ -8,9 +8,8 @@ unsafe_code, unused_import_braces, unused_qualifications)]
 fn main() {
     let doors = vec![false; 100].iter_mut().enumerate()
                                 .map(|(door, door_state)| (1...100).into_iter()
-                                                                   .map(|pass| match door % pass {
-                                                                        0 => { *door_state = !*door_state; *door_state },
-                                                                        _ => *door_state })
+                                                                   .filter(|pass| door % pass == 0)
+                                                                   .map(|_| { *door_state = !*door_state; *door_state })
                                                                    .last().unwrap()).collect::<Vec<_>>();
 
     println!("{:?}", doors);
